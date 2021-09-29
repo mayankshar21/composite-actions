@@ -4,87 +4,94 @@ name: "Dev"
 on:
   push:
     branches:
-      - "dev"
+      - dev
   pull_request:
     branches:
-      - "dev"
+      - dev
 
 jobs:
   lint:
     name: "Lint"
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2"
+        uses: actions/checkout@v2
 
       - name: "Cache Gradle Files"
-        uses: "actions/cache@v2"
+        uses: actions/cache@v2
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: |
-            "~/.gradle/caches"
-            "~/.gradle/wrapper"
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            "${{ runner.os }}-gradle-"
+            ${{ runner.os }}-gradle-
 
       - name: "Run Lint"
-        run: "./gradlew lintDebug"
+        run: ./gradlew lintDebug
+
+      - name: "Upload Lint Reports"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "lint-reports"
+          path: "**/build/reports/tests/"
+          
 
   static-code-analysis:
     name: "Static Code Analysis"
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2"
+        uses: actions/checkout@v2
 
       - name: "Cache Gradle Files"
-        uses: "actions/cache@v2"
+        uses: actions/cache@v2
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: |
-            "~/.gradle/caches"
-            "~/.gradle/wrapper"
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            "${{ runner.os }}-gradle-"
+            ${{ runner.os }}-gradle-
   
   code-coverage:
     name: "Code Coverage"
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2"
+        uses: actions/checkout@v2
 
       - name: "Cache Gradle Files"
-        uses: "actions/cache@v2"
+        uses: actions/cache@v2
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: |
-            "~/.gradle/caches"
-            "~/.gradle/wrapper"
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            "${{ runner.os }}-gradle-"
+            ${{ runner.os }}-gradle-
   
   unit:
     name: "Unit"
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2"
+        uses: actions/checkout@v2
 
       - name: "Cache Gradle Files"
-        uses: "actions/cache@v2"
+        uses: actions/cache@v2
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: |
-            "~/.gradle/caches"
-            "~/.gradle/wrapper"
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            "${{ runner.os }}-gradle-"
+            ${{ runner.os }}-gradle-
