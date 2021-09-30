@@ -1,0 +1,59 @@
+---
+name: "Dev"
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v2
+      - name: "Cache Gradle Files"
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: "Run Lint"
+        run: ./gradlew lintDebug
+      - name: "Upload Lint Reports"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "lint-report"
+          path: "**/build/reports/"
+          if-no-files-found: error       
+  unit:
+    name: "Unit"
+    needs: lint
+    runs-on: ubuntu-latest  
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v2
+      - name: "Cache Gradle Files"
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: "Run Unit"
+        run: ./gradlew testDebugUnitTest
+      - name: "Upload Unit Reports"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "unit-report"
+          path: "**/build/reports/"
+          if-no-files-found: error 

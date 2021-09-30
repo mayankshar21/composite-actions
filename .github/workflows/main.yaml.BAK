@@ -1,0 +1,19 @@
+---
+name: "Main"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  lint:
+  static-code-analysis:
+  code-coverage:
+  unit:
+  instrumentation:
+  ui:
+  build-publish-release:

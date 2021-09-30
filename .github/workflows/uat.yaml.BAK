@@ -1,0 +1,19 @@
+---
+name: "Uat"
+
+on:
+  push:
+    branches:
+      - "uat"
+  pull_request:
+    branches:
+      - "uat"
+
+jobs:
+  lint:
+  static-code-analysis:
+  code-coverage:
+  unit:
+  instrumentation:
+  ui:
+  build-publish-pre-release:
